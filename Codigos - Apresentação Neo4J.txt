@@ -1,0 +1,79 @@
+//Criação de Nodes:
+
+MERGE (p1 : Pessoa {nome: 'Alberto Vidal', função: 'Aluno', idade: '23'})
+MERGE (p2 : Pessoa {nome: 'Angelika Fonteles', função: 'Aluno', idade: '25'})
+MERGE (p3 : Pessoa {nome: 'Guilherme Magno', função: 'Aluno', idade: '25'})
+MERGE (p4 : Pessoa {nome: 'Jamesson Vinicius', função: 'Aluno', idade: '24'})
+MERGE (p5 : Pessoa {nome: 'Juliana Dornelas', função: 'Aluno', idade: '21'}) 
+MERGE (p6 : Pessoa {nome: 'Pedro Calazans', função: 'Aluno', idade: '30'})
+MERGE (p7 : Pessoa {nome: 'Nilo Rodrigues', função: 'Aluno', idade: '27'}) 
+MERGE (p8 : Pessoa {nome: 'Rosicleite Monteiro', função: 'Aluno', idade: '26'})
+MERGE (p9 : Pessoa {nome: 'Raoni Oliveira', função: 'Professor', idade: '33'})
+
+MERGE (f1 : Faculdade {nome: 'Senac PE'})
+
+MERGE (c1 : Cidade {nome: 'Recife'})
+MERGE (c2 : Cidade {nome: 'Jaboatão dos Guararapes'})
+MERGE (c3 : Cidade {nome: 'Caruaru'})
+
+//Criação de Relacionamentos:
+
+MERGE (p1)-[r1: Estuda_na_Faculdade]->(f1)
+MERGE (p2)-[r2: Estuda_na_Faculdade]->(f1)
+MERGE (p3)-[r3: Estuda_na_Faculdade]->(f1)
+MERGE (p4)-[r4: Estuda_na_Faculdade]->(f1)
+MERGE (p5)-[r5: Estuda_na_Faculdade]->(f1)
+MERGE (p6)-[r6: Estuda_na_Faculdade]->(f1)
+MERGE (p7)-[r7: Estuda_na_Faculdade]->(f1)
+MERGE (p8)-[r8: Estuda_na_Faculdade]->(f1)
+MERGE (p9)-[r9: Ensina_na_Faculdade]->(f1)
+
+MERGE (p1)-[r10: Mora_em]->(c2)
+MERGE (p2)-[r11: Mora_em]->(c1)
+MERGE (p3)-[r12: Mora_em]->(c1)
+MERGE (p4)-[r13: Mora_em]->(c1)
+MERGE (p5)-[r14: Mora_em]->(c1)
+MERGE (p6)-[r15: Mora_em]->(c3)
+MERGE (p7)-[r16: Mora_em]->(c3)
+MERGE (p8)-[r17: Mora_em]->(c2)
+MERGE (p9)-[r18: Mora_em]->(c1)
+
+RETURN p1, p2, p3, p4, p5, p6, p7, p8, p9, f1, c1, c2, c3
+
+//-------------------------------------------------------------------------
+//Consultas e testes:
+
+match (n)
+where n:Pessoa
+return n.nome
+
+match (n)
+where n:Pessoa
+return n.idade, n.nome
+
+match (n)
+where n:Pessoa and n.função = 'Professor'
+return n.nome, n.idade
+
+match (n)
+where n:Pessoa and n.função = 'Aluno'
+return n.nome, n.idade
+
+match (n)
+where n:Cidade
+return n.nome
+
+MATCH (n:Pessoa)
+WHERE n.função = 'Aluno'
+RETURN n.nome
+
+match (n:Pessoa {nome: 'Alberto Vidal'})
+detach delete n 
+
+MATCH (n:Pessoa)
+WHERE n.função = 'Aluno'
+RETURN n.nome
+
+MATCH (p:Pessoa)-[rel:Mora_em]->(c:Cidade)
+WHERE c.nome = 'Recife'
+RETURN p, rel, c;
